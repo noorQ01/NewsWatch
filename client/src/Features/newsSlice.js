@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import * as ENV from "../config";
 
 const initialState = {
   news: [],
@@ -9,7 +10,7 @@ const initialState = {
 
 export const addNews = createAsyncThunk("news/addNews", async (newsData) => {
   try {
-    const response = await axios.post("http://localhost:3001/addNews", {
+    const response = await axios.post(`${ENV.SERVER_URL}/addNews`, {
       title: newsData.title,
       imageURL: newsData.imageURL,
       details: newsData.details,
@@ -26,7 +27,7 @@ export const addNews = createAsyncThunk("news/addNews", async (newsData) => {
 
 export const viewNews = createAsyncThunk("news/viewNews", async () => {
   try {
-    const response = await axios.get("http://localhost:3001/viewNews");
+    const response = await axios.get(`${ENV.SERVER_URL}/viewNews`);
     return response.data.news;
     console.log(response);
   } catch (error) {
@@ -39,7 +40,7 @@ export const updateNews = createAsyncThunk(
   async ({ newsData, news_id }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/updateNews/${news_id}`,
+        `${ENV.SERVER_URL}/updateNews/${news_id}`,
         {
           title: newsData.title,
           imageURL: newsData.imageURL,
@@ -61,7 +62,7 @@ export const deleteNews = createAsyncThunk("news/deleteNews", async (id) => {
   try {
     console.log(id);
     const response = await axios.delete(
-      `http://localhost:3001/deleteNews/${id}`
+      `${ENV.SERVER_URL}/deleteNews/${id}`
     );
     return id;
   } catch (error) {
@@ -72,7 +73,7 @@ export const deleteNews = createAsyncThunk("news/deleteNews", async (id) => {
 export const likeNews = createAsyncThunk("news/likeNews", async (newsData) => {
   try {
     const response = await axios.put(
-      `http://localhost:3001/likeNews/${newsData.newsId}`,
+      `${ENV.SERVER_URL}/likeNews/${newsData.newsId}`,
       {
         userId: newsData.userId,
       }

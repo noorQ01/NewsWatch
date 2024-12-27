@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import * as ENV from "../config";
 
 const initialState = {
   donation: {
@@ -18,7 +19,7 @@ export const addDonate = createAsyncThunk(
   async (donationData) => {
     try {
       console.log(donationData);
-      const response = await axios.post("http://localhost:3001/addDonate", {
+      const response = await axios.post(`${ENV.SERVER_URL}/addDonate`, {
         userId: donationData.userId,
         newsId: donationData.newsId,
         amount: donationData.amount,
@@ -38,7 +39,7 @@ export const getDonation = createAsyncThunk(
   async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/getDonation/${userId}`
+        `${ENV.SERVER_URL}/getDonation/${userId}`
       );
       console.log(response.data);
 

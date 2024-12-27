@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import * as ENV from "../config";
 
 const Location = () => {
   const [ip, setip] = useState(null);
   const [geoData, setgeoData] = useState(null);
-  const API_KEY = "at_KBbSylUetWMFBBSGlUbewwXWO8DPi";
+  const API_KEY = ENV.API_KEY;
 
   const fetchIpAddress = async () => {
     try {

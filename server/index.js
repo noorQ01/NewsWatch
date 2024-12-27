@@ -5,14 +5,20 @@ import UserModel from "./Models/UserModel.js";
 import bcrypt from "bcrypt";
 import NewsModel from "./Models/NewsModel.js";
 import DonationModel from "./Models/DonationModel.js";
+import * as ENV from "./config.js";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
+const corsOptions = {
+  origin: ENV.CLIENT_URL, //client URL local
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Enable credentials (cookies, authorization headers, etc.)
+};
+
+app.use(cors(corsOptions));
 //Database connection
-const connectString =
-  "mongodb+srv://admin:admin@newswatchcluster.zv3xp.mongodb.net/newsWatchDB?retryWrites=true&w=majority&appName=NewsWatchCluster";
+const connectString = `mongodb+srv://${ENV.DB_USER}:${ENV.DB_PASSWORD}@${ENV.DB_CLUSTER}/${ENV.DB_NAME}?retryWrites=true&w=majority&appName=${ENV.DB_APP_NAME}`;
 
 mongoose.connect(connectString, {
   useNewUrlParser: true,
@@ -258,7 +264,7 @@ app.get("/getdonation/:userId", async (req, res) => {
 
   try {
     const donation = await DonationModel.findOne({ userId: userId });
-    
+
     res.send({ donation: donation });
   } catch (err) {
     console.error(err);
@@ -266,6 +272,7 @@ app.get("/getdonation/:userId", async (req, res) => {
   }
 });
 // End API
-app.listen(3001, () => {
-  console.log("You are connected");
+const port = ENV.PORT || 3001;
+app.listen(port, () => {
+  console.log(`You are connected: ${port}`);
 });
