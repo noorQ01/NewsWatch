@@ -11,9 +11,9 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: ENV.CLIENT_URL, //client URL local
+  origin: ENV.CLIENT_URL, 
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Enable credentials (cookies, authorization headers, etc.)
+  credentials: true, 
 };
 
 app.use(cors(corsOptions));
